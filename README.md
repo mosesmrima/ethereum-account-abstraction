@@ -1,66 +1,69 @@
-## Foundry
+```
+# MinimalAccount: Account Abstraction in Ethereum
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
+This project implements a minimal smart contract wallet that supports account abstraction on Ethereum using the [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) standard. It is built using Solidity and tested with Foundry. The contract allows a user to execute transactions and validate operations via an EntryPoint contract.
 
-Foundry consists of:
+## Features
+- Implements the `IAccount` interface from ERC-4337.
+- Uses `Ownable` from OpenZeppelin for ownership management.
+- Supports validating user operations using ECDSA signatures.
+- Allows external transaction execution by the owner or the EntryPoint.
+- Handles missing account funds for gas payments.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Smart Contract
+### `MinimalAccount.sol`
+This contract extends `IAccount` and `Ownable` to manage account abstraction:
 
-## Documentation
+- **Constructor**: Initializes the contract with the EntryPoint address.
+- **Modifiers**:
+  - `requireFromEntryPoint()`: Ensures only the EntryPoint contract can call certain functions.
+  - `requireFromEntryPointOrOwner()`: Restricts access to the EntryPoint or the account owner.
+- **Functions**:
+  - `execute()`: Executes a transaction to a specified address.
+  - `validateUserOp()`: Validates user operations using ECDSA signatures.
+  - `_validateSignature()`: Internal function for signature verification.
+  - `_payAccountFunds()`: Handles gas payments if required.
+  - `getEntryPoint()`: Returns the EntryPoint contract address.
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+## Setup
+### Prerequisites
+Ensure you have Foundry installed. If not, install it using:
+```sh
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 ```
 
-### Test
-
-```shell
-$ forge test
+### Clone the Repository
+```sh
+git clone https://github.com/mosesmrima/ethereum-account-abstraction
+cd ethereum-account-abstraction
 ```
 
-### Format
-
-```shell
-$ forge fmt
+### Install Dependencies
+```sh
+forge install
 ```
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
+### Compile the Contract
+```sh
+forge build
 ```
 
-### Anvil
-
-```shell
-$ anvil
+### Run Tests
+```sh
+forge test
 ```
 
-### Deploy
+## Deployment
+### Using Foundry
+1. Configure your environment variables in `.env`.
+2. Deploy the contract:
+   ```sh
+   forge script script/Deploy.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+   ```
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+## License
+This project is licensed under the MIT License.
 ```
 
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
