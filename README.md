@@ -2,7 +2,7 @@
 
 ## Overview
 This project implements a minimal smart contract wallet that supports account abstraction on Ethereum using the [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) standard. It is built using Solidity and tested with Foundry. The contract allows a user to execute transactions and validate operations via an EntryPoint contract.
-This project was part of my learning journey to master advanced foundry, (Cyfrin Updraft)[https://updraft.cyfrin.io/courses/advanced-foundry]
+This project was part of my learning journey to master advanced foundry, [Cyfrin Updraft](https://updraft.cyfrin.io/courses/advanced-foundry)
 
 ## Features
 - Implements the `IAccount` interface from ERC-4337.
